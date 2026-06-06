@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Noto Sans Bengali', 'Kohinoor Bangla', system-ui, sans-serif;
+  --font-mono: 'Courier New', monospace;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #020817;
+  color: #f1f5f9;
+  font-family: 'Noto Sans Bengali', 'Kohinoor Bangla', system-ui, sans-serif;
+}
+
+.digit-card {
+  width: 62px;
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #f59e0b;
+  border-radius: 14px;
+  background: rgba(245, 158, 11, 0.05);
+  animation: glow 1.8s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    border-color: #f59e0b;
+    box-shadow: 0 0 18px rgba(245, 158, 11, 0.12);
+  }
+  50% {
+    border-color: #fcd34d;
+    box-shadow: 0 0 28px rgba(245, 158, 11, 0.28);
+  }
+}
