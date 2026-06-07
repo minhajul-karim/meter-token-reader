@@ -2,11 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { compression } from 'vite-plugin-compression2'
 
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    compression({ algorithms: ['brotliCompress'] }),
+    compression({ algorithms: ['gzip'] }),
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
