@@ -18,12 +18,12 @@ export function useTokens() {
     return groupOf(parsed[0]);
   }
 
-  function advance(): { action: 'done' } | { action: 'next'; groups: string[] } {
+  function advance(): { action: 'done' } | { action: 'next'; groups: string[]; tokenNum: number } {
     setDoneSet(prev => new Set([...prev, tIdx]));
     if (isLastTok) return { action: 'done' };
     const nextIdx = tIdx + 1;
     setTIdx(nextIdx);
-    return { action: 'next', groups: groupOf(tokens[nextIdx]) };
+    return { action: 'next', groups: groupOf(tokens[nextIdx]), tokenNum: nextIdx + 1 };
   }
 
   function reset() {
