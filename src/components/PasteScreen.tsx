@@ -5,6 +5,7 @@ import { toBN } from '../utils/bengali';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/minhajul/';
 const FACEBOOK_PAGE_URL = 'https://www.facebook.com/profile.php?id=61590279887504';
 const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfhzCDRaTqxwwDBAD5s1pXASrN1tbJB0lxsjBZAjc3gUC37Tg/viewform';
+const GITHUB_URL = 'https://github.com/minhajul-karim/meter-token-reader';
 const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbwE1llbsvFK3UkhLUe_NbwjTv2ulCHzhA5dkjQjq_UMKlwk3gH7u0cgNzUMyEaZ0PTdgg/exec';
 
 const SAMPLE_SMS =
@@ -105,14 +106,17 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
         </p>
       </div>
 
-      <div className="mt-auto pt-2 pb-1 flex items-center justify-center flex-wrap gap-3 text-xs text-slate-400">
+      <div className="mt-auto pt-2 pb-1 flex flex-col items-center gap-2 text-xs text-slate-400">
+        <div className="flex items-center justify-center flex-wrap gap-3">
+          <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">LinkedIn</a>
+          <span>·</span>
+          <a href={FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">Facebook</a>
+          <span>·</span>
+          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">GitHub</a>
+          <span>·</span>
+          <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">মতামত</a>
+        </div>
         <span>তৈরি করেছেন Minhajul Karim</span>
-        <span>·</span>
-        <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">LinkedIn</a>
-        <span>·</span>
-        <a href={FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">Facebook</a>
-        <span>·</span>
-        <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">মতামত</a>
       </div>
     </div>
   );
