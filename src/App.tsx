@@ -26,13 +26,17 @@ export default function App() {
         tts.sayGroup(result.group);
         break;
       case 'await-enter':
-        tts.say('এখন মিটারে Enter চাপুন, তারপর নিচের বোতাম চাপুন।');
+        tts.say(tts.lang === 'bn'
+          ? 'এখন মিটারে Enter চাপুন, তারপর নিচের বোতাম চাপুন।'
+          : 'Now press Enter on the meter, then tap the button below.');
         break;
       case 'next-token':
         tts.sayTokenAndGroup(result.tokenNum, result.total, result.group);
         break;
       case 'done':
-        tts.say('সব টোকেন দেওয়া হয়ে গেছে। মিটারের ডিসপ্লে দেখুন।');
+        tts.say(tts.lang === 'bn'
+          ? 'সব টোকেন দেওয়া হয়ে গেছে। মিটারের ডিসপ্লে দেখুন।'
+          : 'All tokens entered. Check your meter display.');
         setScreen('done');
         break;
     }
@@ -40,7 +44,7 @@ export default function App() {
 
   function handleRepeat() {
     if (tok.awaitEnter) {
-      tts.say('মিটারে Enter চাপুন।');
+      tts.say(tts.lang === 'bn' ? 'মিটারে Enter চাপুন।' : 'Press Enter on the meter.');
     } else {
       tts.sayGroup(tok.curGrp);
     }
@@ -57,7 +61,7 @@ export default function App() {
   }
 
   if (screen === 'paste') {
-    return <PasteScreen onStart={handleStart} ttsSupported={tts.supported} />;
+    return <PasteScreen onStart={handleStart} ttsSupported={tts.supported} lang={tts.lang} />;
   }
 
   if (screen === 'reading') {
