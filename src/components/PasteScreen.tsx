@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { parseTokens } from '../utils/parse';
 import { toBN } from '../utils/bengali';
 
 const LINKEDIN_URL = 'https://www.linkedin.com/in/minhajul/';
 const FACEBOOK_PAGE_URL = 'https://www.facebook.com/profile.php?id=61590279887504';
 const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfhzCDRaTqxwwDBAD5s1pXASrN1tbJB0lxsjBZAjc3gUC37Tg/viewform';
+const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbwE1llbsvFK3UkhLUe_NbwjTv2ulCHzhA5dkjQjq_UMKlwk3gH7u0cgNzUMyEaZ0PTdgg/exec';
 
 const SAMPLE_SMS =
   'Successful!Your BPDBprepaid Prepaid Token is 1234-5678-9012-3456-7890,2345-6789-0123-4567-8901,3456-7890-1234-5678-9012';
@@ -17,6 +18,14 @@ interface Props {
 
 export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
   const [text, setText] = useState('');
+  const [userCount, setUserCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch(`${COUNTER_URL}?count=true`)
+      .then(r => r.json())
+      .then(d => setUserCount(d.count))
+      .catch(() => {});
+  }, []);
 
   const tokenCount = parseTokens(text).length;
   const hasText = text.trim().length > 0;
@@ -31,6 +40,11 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
         <p className="text-slate-500 text-sm leading-7 mt-1.5">
           রিচার্জের SMS পেস্ট করুন। অ্যাপ প্রতিটি টোকেন বাংলায় পড়বে — একা মিটারে টোকেন দেওয়া যাবে, কারো সাহায্য লাগবে না।
         </p>
+        {userCount !== null && (
+          <p className="text-xs text-slate-400 mt-2">
+            এখন পর্যন্ত {toBN(userCount)}টি টোকেন পড়া হয়েছে
+          </p>
+        )}
       </div>
 
       {!ttsSupported && (

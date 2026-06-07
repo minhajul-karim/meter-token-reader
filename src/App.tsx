@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import PasteScreen from './components/PasteScreen';
+
+const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbwE1llbsvFK3UkhLUe_NbwjTv2ulCHzhA5dkjQjq_UMKlwk3gH7u0cgNzUMyEaZ0PTdgg/exec';
 import ReadingScreen from './components/ReadingScreen';
 import DoneScreen from './components/DoneScreen';
 import { useTTS } from './hooks/useTTS';
@@ -22,6 +24,7 @@ export default function App() {
   }
 
   function handleConfirmEnter() {
+    fetch(COUNTER_URL).catch(() => {});
     const result = tok.advance();
     if (result.action === 'done') {
       tts.say(tts.lang === 'bn'
