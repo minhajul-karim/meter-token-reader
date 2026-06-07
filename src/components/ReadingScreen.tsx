@@ -23,7 +23,7 @@ interface Props {
 
 export default function ReadingScreen({
   tokens, tIdx, curGroups, doneSet,
-  awaitEnter, isSpeaking, isLastTok, ttsRate,
+  awaitEnter, isLastTok, ttsRate,
   onConfirmEnter, onRepeat, onBack, onSetSpeed,
 }: Props) {
   return (
