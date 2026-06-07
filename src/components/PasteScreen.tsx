@@ -38,14 +38,9 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
           বিপিডিবি প্রিপেইড মিটার
         </p>
         <h1 className="text-[26px] font-bold text-slate-900 mt-1">টোকেন রিডার</h1>
-        <p className="text-slate-500 text-sm leading-7 mt-1.5">
+        <p className="text-slate-600 text-sm leading-7 mt-1.5">
           রিচার্জের SMS পেস্ট করুন। অ্যাপ প্রতিটি টোকেন বাংলায় পড়বে — একা মিটারে টোকেন দেওয়া যাবে, কারো সাহায্য লাগবে না।
         </p>
-        {userCount !== null && (
-          <p className="text-xs text-slate-400 mt-2">
-            এখন পর্যন্ত {toBN(userCount)}টি টোকেন পড়া হয়েছে
-          </p>
-        )}
       </div>
 
       {!ttsSupported && (
@@ -57,14 +52,14 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
       )}
       {ttsSupported && lang === 'en' && (
         <div className="bg-slate-100 border border-slate-200 rounded-xl px-3.5 py-3">
-          <p className="text-slate-500 text-sm leading-snug">
+          <p className="text-slate-600 text-sm leading-snug">
             ℹ️ Bengali voice not found — reading digits in English.
           </p>
         </div>
       )}
 
       <div>
-        <p className="text-slate-500 text-xs mb-1.5">রিচার্জের SMS</p>
+        <p className="text-slate-600 text-xs mb-1.5">রিচার্জের SMS</p>
         <textarea
           className="w-full h-32 bg-white border border-slate-200 rounded-2xl p-3.5 text-slate-800 text-sm leading-relaxed resize-none outline-none focus:border-amber-500 transition-colors"
           placeholder="সম্পূর্ণ SMS এখানে পেস্ট করুন…"
@@ -98,7 +93,7 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
 
       <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3.5">
         <p className="text-amber-600 font-semibold text-sm mb-1">কিভাবে কাজ করে</p>
-        <p className="text-slate-600 text-sm leading-relaxed">
+        <p className="text-slate-700 text-sm leading-relaxed">
           প্রতিটি ২০ সংখ্যার টোকেন একবারে পড়া হবে — ৫টি গ্রুপ একে একে বলা হবে।{' '}
           শুনুন → মিটারে সব সংখ্যা টাইপ করুন →{' '}
           <strong className="text-slate-800">মিটারে Enter চাপুন</strong> →{' '}
@@ -106,17 +101,20 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
         </p>
       </div>
 
-      <div className="mt-auto pt-2 pb-1 flex flex-col items-center gap-2 text-xs text-slate-400">
+      <div className="mt-auto pt-2 pb-1 flex flex-col items-center gap-2 text-xs text-slate-500">
         <div className="flex items-center justify-center flex-wrap gap-3">
-          <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">LinkedIn</a>
+          <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 transition-colors">LinkedIn</a>
           <span>·</span>
-          <a href={FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">Facebook</a>
+          <a href={FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 transition-colors">Facebook</a>
           <span>·</span>
-          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">GitHub</a>
+          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 transition-colors">GitHub</a>
           <span>·</span>
-          <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">মতামত</a>
+          <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-700 transition-colors">মতামত</a>
         </div>
         <span>তৈরি করেছেন Minhajul Karim</span>
+        {userCount !== null && (
+          <span>এখন পর্যন্ত {toBN(userCount)}টি টোকেন পড়া হয়েছে</span>
+        )}
       </div>
     </div>
   );
