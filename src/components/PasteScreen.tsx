@@ -25,7 +25,7 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
         </p>
         <h1 className="text-[26px] font-bold text-slate-900 mt-1">টোকেন রিডার</h1>
         <p className="text-slate-500 text-sm leading-7 mt-1.5">
-          রিচার্জের SMS পেস্ট করুন। অ্যাপ প্রতিটি ৪ সংখ্যার গ্রুপ বাংলায় পড়বে — একা মিটারে টোকেন দেওয়া যাবে, কারো সাহায্য লাগবে না।
+          রিচার্জের SMS পেস্ট করুন। অ্যাপ প্রতিটি টোকেন বাংলায় পড়বে — একা মিটারে টোকেন দেওয়া যাবে, কারো সাহায্য লাগবে না।
         </p>
       </div>
 
@@ -80,8 +80,10 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
       <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3.5">
         <p className="text-amber-600 font-semibold text-sm mb-1">কিভাবে কাজ করে</p>
         <p className="text-slate-600 text-sm leading-relaxed">
-          প্রতিটি ২০ সংখ্যার টোকেন পাঁচটি ৪-সংখ্যার গ্রুপে পড়া হয়। একটি গ্রুপ শুনুন → মিটারে টাইপ করুন →{' '}
-          <strong className="text-slate-800">পরবর্তী গ্রুপ</strong> চাপুন। ৫টি গ্রুপ শেষে মিটারে Enter চাপতে বলা হবে।
+          প্রতিটি ২০ সংখ্যার টোকেন একবারে পড়া হবে — ৫টি গ্রুপ একে একে বলা হবে।{' '}
+          শুনুন → মিটারে সব সংখ্যা টাইপ করুন →{' '}
+          <strong className="text-slate-800">মিটারে Enter চাপুন</strong> →{' '}
+          অ্যাপে <strong className="text-slate-800">Enter চাপলাম</strong> বোতাম চাপুন।
         </p>
       </div>
     </div>

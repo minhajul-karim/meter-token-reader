@@ -30,15 +30,15 @@ export default function ReadingScreen({
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-[18px] pb-3 border-b border-slate-200">
-        <button className="text-slate-500 text-sm px-2 py-1" onClick={onBack}>
-          ← ফিরে
+        <button className="text-slate-500 px-2 py-1" onClick={onBack}>
+          ← হোম
         </button>
-        <p className="text-amber-600 text-[11px] font-semibold tracking-[.12em] uppercase">
+        <p className="text-amber-600 text-[16px] font-semibold tracking-[.12em] uppercase">
           টোকেন {toBN(tIdx + 1)} / {toBN(tokens.length)}
         </p>
-        <button className={`text-xl px-2 py-1 ${isSpeaking ? 'animate-pulse' : ''}`} onClick={onRepeat}>
+        {/* <button className={`text-xl px-2 py-1 ${isSpeaking ? 'animate-pulse' : ''}`} onClick={onRepeat}>
           🔊
-        </button>
+        </button> */}
       </div>
 
       {/* Token progress dots */}
@@ -59,7 +59,7 @@ export default function ReadingScreen({
       <div className="flex-1 flex flex-col items-center justify-center px-5 gap-6">
         <div className="w-full max-w-xs flex flex-col gap-2">
           {curGroups.map((g, i) => (
-            <div key={i} className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-sm">
+            <div key={i} className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl px-4 py-2 shadow-sm">
               <span className="text-slate-400 text-xs w-4 shrink-0">{toBN(i + 1)}</span>
               <span className="font-mono text-[24px] font-bold text-amber-600 tracking-[.22em]">
                 {g}

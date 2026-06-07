@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/DoneScreen.tsx","./src/components/PasteScreen.tsx","./src/components/ReadingScreen.tsx","./src/hooks/useTTS.ts","./src/hooks/useTokens.ts","./src/utils/bengali.ts","./src/utils/parse.ts"],"version":"5.9.3"}
