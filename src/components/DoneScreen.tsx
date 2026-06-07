@@ -10,12 +10,12 @@ export default function DoneScreen({ tokenCount, onNewSession }: Props) {
     <div className="min-h-screen flex flex-col items-center justify-center px-8 gap-6 text-center">
       <div
         className="w-[88px] h-[88px] rounded-full flex items-center justify-center text-[44px]"
-        style={{ background: 'rgba(34,197,94,.08)', border: '1px solid rgba(34,197,94,.25)' }}
+        style={{ background: 'rgba(22,163,74,.08)', border: '1px solid rgba(22,163,74,.25)' }}
       >
         ⚡
       </div>
       <div>
-        <h2 className="text-[22px] font-bold text-white">
+        <h2 className="text-[22px] font-bold text-slate-900">
           সব {toBN(tokenCount)}টি টোকেন দেওয়া হয়েছে!
         </h2>
         <p className="text-slate-500 text-sm leading-7 mt-2">
