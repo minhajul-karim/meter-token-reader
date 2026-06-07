@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { BN_W, toBN } from '../utils/bengali';
 
 const EN_W: Record<string, string> = {
   '0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four',
@@ -10,6 +9,7 @@ export function useTTS() {
   const [rate, setRate] = useState(0.75);
   const [supported] = useState(() => 'speechSynthesis' in window);
   const [lang, setLang] = useState<'bn' | 'en'>('bn');
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
 
   useEffect(() => {
@@ -39,38 +39,47 @@ export function useTTS() {
     return () => speechSynthesis.removeEventListener('voiceschanged', loadVoices);
   }, [supported]);
 
-  function say(text: string, overrideRate?: number) {
-    if (!supported) return;
-    speechSynthesis.cancel();
+  function makeUtterance(text: string, overrideRate?: number) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang === 'bn' ? 'bn-BD' : 'en-US';
     u.rate = overrideRate ?? rate;
     if (voiceRef.current) u.voice = voiceRef.current;
-    speechSynthesis.speak(u);
+    return u;
   }
 
-  function sayGroup(group: string) {
-    const W = lang === 'bn' ? BN_W : EN_W;
-    say(group.split('').map(d => W[d] ?? d).join(', '), rate);
-  }
-
-  function sayTokenAndGroup(n: number, total: number, group: string) {
+  function say(text: string, overrideRate?: number) {
     if (!supported) return;
     speechSynthesis.cancel();
-    const text = lang === 'bn'
-      ? `টোকেন ${toBN(n)}, মোট ${toBN(total)} এর মধ্যে।`
-      : `Token ${n}, of ${total}.`;
-    const u1 = new SpeechSynthesisUtterance(text);
-    u1.lang = lang === 'bn' ? 'bn-BD' : 'en-US';
-    u1.rate = rate * 1.1;
-    if (voiceRef.current) u1.voice = voiceRef.current;
-    u1.onend = () => sayGroup(group);
-    speechSynthesis.speak(u1);
+    speechSynthesis.speak(makeUtterance(text, overrideRate));
+  }
+
+  function sayFullToken(groups: string[], onDone: () => void) {
+    if (!supported) { onDone(); return; }
+    speechSynthesis.cancel();
+    setIsSpeaking(true);
+
+    groups.forEach(g => {
+      const u = new SpeechSynthesisUtterance(g.split('').map(d => EN_W[d] ?? d).join(', '));
+      u.lang = 'en-US';
+      u.rate = rate;
+      speechSynthesis.speak(u);
+    });
+
+    const enterText = lang === 'bn'
+      ? 'এখন মিটারে Enter চাপুন'
+      : 'Now press Enter on the meter';
+    const finalU = makeUtterance(enterText);
+    finalU.onend = () => {
+      setIsSpeaking(false);
+      onDone();
+    };
+    speechSynthesis.speak(finalU);
   }
 
   function cancel() {
     if (supported) speechSynthesis.cancel();
+    setIsSpeaking(false);
   }
 
-  return { supported, lang, rate, setRate, say, sayGroup, sayTokenAndGroup, cancel };
+  return { supported, lang, isSpeaking, rate, setRate, say, sayFullToken, cancel };
 }
