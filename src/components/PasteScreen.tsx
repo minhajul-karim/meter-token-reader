@@ -44,10 +44,16 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
       </div>
 
       {!ttsSupported && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl px-3.5 py-3">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl px-3.5 py-3 flex flex-col gap-2.5">
           <p className="text-amber-700 text-sm leading-snug">
-            ⚠️ আপনার ব্রাউজার ভয়েস সাপোর্ট করছে না। Chrome বা Samsung Browser-এ খুলুন।
+            ⚠️ আপনার ব্রাউজার ভয়েস সাপোর্ট করছে না। Chrome বা অন্য ব্রাউজারে খুলুন।
           </p>
+          <a
+            href={`intent://${window.location.host}${window.location.pathname}#Intent;scheme=${window.location.protocol.replace(':', '')};package=com.android.chrome;end`}
+            className="self-start px-3.5 py-2 bg-amber-400 text-slate-900 font-semibold text-sm rounded-lg active:bg-amber-500"
+          >
+            Chrome-এ খুলুন →
+          </a>
         </div>
       )}
       {ttsSupported && lang === 'en' && (
