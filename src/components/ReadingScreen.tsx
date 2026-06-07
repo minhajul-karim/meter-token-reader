@@ -36,9 +36,6 @@ export default function ReadingScreen({
         <p className="text-amber-600 text-[16px] font-semibold tracking-[.12em] uppercase">
           টোকেন {toBN(tIdx + 1)} / {toBN(tokens.length)}
         </p>
-        {/* <button className={`text-xl px-2 py-1 ${isSpeaking ? 'animate-pulse' : ''}`} onClick={onRepeat}>
-          🔊
-        </button> */}
       </div>
 
       {/* Token progress dots */}
