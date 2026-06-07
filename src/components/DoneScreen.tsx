@@ -17,7 +17,7 @@ export default function DoneScreen({ onNewSession }: Props) {
         <h2 className="text-[22px] font-bold text-slate-900">
           সব টোকেন দেওয়া হয়েছে!
         </h2>
-        <p className="text-slate-500 text-sm leading-7 mt-2">
+        <p className="text-slate-600 text-sm leading-7 mt-2">
           রিচার্জ নিশ্চিত করতে মিটারের ডিসপ্লে দেখুন।
         </p>
       </div>
@@ -32,7 +32,7 @@ export default function DoneScreen({ onNewSession }: Props) {
         href={FEEDBACK_FORM_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 px-5 py-3 border border-slate-200 rounded-2xl text-slate-600 text-sm active:bg-slate-50"
+        className="flex items-center gap-2 px-5 py-3 border border-slate-200 rounded-2xl text-slate-700 text-sm active:bg-slate-50"
       >
         <span>💬</span>
         <span>অ্যাপটি কেমন লাগলো? মতামত দিন</span>

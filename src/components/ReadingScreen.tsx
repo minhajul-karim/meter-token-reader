@@ -57,7 +57,7 @@ export default function ReadingScreen({
         <div className="w-full max-w-xs flex flex-col gap-2">
           {curGroups.map((g, i) => (
             <div key={i} className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl px-4 py-2 shadow-sm">
-              <span className="text-slate-400 text-xs w-4 shrink-0">{toBN(i + 1)}</span>
+              <span className="text-slate-500 text-xs w-4 shrink-0">{toBN(i + 1)}</span>
               <span className="font-mono text-[24px] font-bold text-amber-600 tracking-[.22em]">
                 {g}
               </span>
