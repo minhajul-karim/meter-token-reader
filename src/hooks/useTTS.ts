@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { BN_ORDINAL, toBN } from '../utils/bengali';
 
 const EN_W: Record<string, string> = {
   '0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four',
@@ -53,10 +54,16 @@ export function useTTS() {
     speechSynthesis.speak(makeUtterance(text, overrideRate));
   }
 
-  function sayFullToken(groups: string[], onDone: () => void) {
+  function sayFullToken(groups: string[], tokenNum: number, onDone: () => void) {
     if (!supported) { onDone(); return; }
     speechSynthesis.cancel();
     setIsSpeaking(true);
+
+    const ordinal = BN_ORDINAL[tokenNum] ?? `${toBN(tokenNum)} নম্বর`;
+    const announcementText = lang === 'bn'
+      ? `এখন ${ordinal} টোকেন পড়া হচ্ছে`
+      : `Now reading token ${tokenNum}`;
+    speechSynthesis.speak(makeUtterance(announcementText));
 
     groups.forEach(g => {
       const u = new SpeechSynthesisUtterance(g.split('').map(d => EN_W[d] ?? d).join(', '));

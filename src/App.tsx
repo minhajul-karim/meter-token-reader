@@ -18,7 +18,7 @@ export default function App() {
     if (!groups) return;
     setScreen('reading');
     setAwaitEnter(false);
-    tts.sayFullToken(groups, () => setAwaitEnter(true));
+    tts.sayFullToken(groups, 1, () => setAwaitEnter(true));
   }
 
   function handleConfirmEnter() {
@@ -30,13 +30,13 @@ export default function App() {
       setScreen('done');
     } else {
       setAwaitEnter(false);
-      tts.sayFullToken(result.groups, () => setAwaitEnter(true));
+      tts.sayFullToken(result.groups, result.tokenNum, () => setAwaitEnter(true));
     }
   }
 
   function handleRepeat() {
     setAwaitEnter(false);
-    tts.sayFullToken(tok.curGroups, () => setAwaitEnter(true));
+    tts.sayFullToken(tok.curGroups, tok.tIdx + 1, () => setAwaitEnter(true));
   }
 
   function handleBack() {
