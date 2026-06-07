@@ -73,5 +73,5 @@ export default function App() {
     );
   }
 
-  return <DoneScreen tokenCount={tok.tokens.length} onNewSession={handleNewSession} />;
+  return <DoneScreen onNewSession={handleNewSession} />;
 }

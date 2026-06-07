@@ -1,13 +1,10 @@
-import { toBN } from '../utils/bengali';
-
 const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfhzCDRaTqxwwDBAD5s1pXASrN1tbJB0lxsjBZAjc3gUC37Tg/viewform';
 
 interface Props {
-  tokenCount: number;
   onNewSession: () => void;
 }
 
-export default function DoneScreen({ tokenCount, onNewSession }: Props) {
+export default function DoneScreen({ onNewSession }: Props) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-8 gap-6 text-center">
       <div
@@ -18,7 +15,7 @@ export default function DoneScreen({ tokenCount, onNewSession }: Props) {
       </div>
       <div>
         <h2 className="text-[22px] font-bold text-slate-900">
-          সব {toBN(tokenCount)}টি টোকেন দেওয়া হয়েছে!
+          সব টোকেন দেওয়া হয়েছে!
         </h2>
         <p className="text-slate-500 text-sm leading-7 mt-2">
           রিচার্জ নিশ্চিত করতে মিটারের ডিসপ্লে দেখুন।
