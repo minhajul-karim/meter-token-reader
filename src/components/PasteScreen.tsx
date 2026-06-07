@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { parseTokens } from '../utils/parse';
 import { toBN } from '../utils/bengali';
 
+const LINKEDIN_URL = 'https://www.linkedin.com/in/minhajul/';
+const FACEBOOK_PAGE_URL = 'https://www.facebook.com/profile.php?id=61590279887504';
+const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfhzCDRaTqxwwDBAD5s1pXASrN1tbJB0lxsjBZAjc3gUC37Tg/viewform';
+
 const SAMPLE_SMS =
   'Successful!Your BPDBprepaid Prepaid Token is 1234-5678-9012-3456-7890,2345-6789-0123-4567-8901,3456-7890-1234-5678-9012';
 
@@ -12,7 +16,7 @@ interface Props {
 }
 
 export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
-  const [text, setText] = useState('Successful!Your BPDBprepaid Prepaid Token is 0730-3918-5317-5866-3403,1817-2718-3498-5101-9107,0973-9027-9340-8024-0436,1925-4939-2906-8624-4919,1208-6836-1120-9674-5553,1493-4745-5773-2537-2950,2138-5946-0021-2176-7267,3823-0895-2690-2807-4060,1992-4059-5150-6133-8134,6546-8993-3582-1350-8506,7144-6560-5593-6608-7180,SquNo:-1=9 for offline Meter No:010112470319,Vending Amt:2000.0,Enrg Cost: 1789.99,Total Charge:210.01,Meter Rent 1P:40,Demand Charge:84,VAT:95.24,Rebate:-9.23.');
+  const [text, setText] = useState('');
 
   const tokenCount = parseTokens(text).length;
   const hasText = text.trim().length > 0;
@@ -85,6 +89,16 @@ export default function PasteScreen({ onStart, ttsSupported, lang }: Props) {
           <strong className="text-slate-800">মিটারে Enter চাপুন</strong> →{' '}
           অ্যাপে <strong className="text-slate-800">Enter চাপলাম</strong> বোতাম চাপুন।
         </p>
+      </div>
+
+      <div className="mt-auto pt-2 pb-1 flex items-center justify-center flex-wrap gap-3 text-xs text-slate-400">
+        <span>তৈরি করেছেন Minhajul Karim</span>
+        <span>·</span>
+        <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">LinkedIn</a>
+        <span>·</span>
+        <a href={FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">Facebook</a>
+        <span>·</span>
+        <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer" className="hover:text-slate-600 transition-colors">মতামত</a>
       </div>
     </div>
   );

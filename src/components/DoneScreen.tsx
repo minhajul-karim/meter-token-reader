@@ -1,5 +1,7 @@
 import { toBN } from '../utils/bengali';
 
+const FEEDBACK_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfhzCDRaTqxwwDBAD5s1pXASrN1tbJB0lxsjBZAjc3gUC37Tg/viewform';
+
 interface Props {
   tokenCount: number;
   onNewSession: () => void;
@@ -28,6 +30,16 @@ export default function DoneScreen({ tokenCount, onNewSession }: Props) {
       >
         নতুন সেশন
       </button>
+
+      <a
+        href={FEEDBACK_FORM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 px-5 py-3 border border-slate-200 rounded-2xl text-slate-600 text-sm active:bg-slate-50"
+      >
+        <span>💬</span>
+        <span>অ্যাপটি কেমন লাগলো? মতামত দিন</span>
+      </a>
     </div>
   );
 }
