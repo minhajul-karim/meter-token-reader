@@ -9,32 +9,23 @@ const SPEEDS: [string, number][] = [
 interface Props {
   tokens: string[];
   tIdx: number;
-  curGrps: string[];
-  curGrp: string;
-  gIdx: number;
+  curGroups: string[];
   doneSet: Set<number>;
   awaitEnter: boolean;
+  isSpeaking: boolean;
   isLastTok: boolean;
   ttsRate: number;
-  onNext: () => void;
+  onConfirmEnter: () => void;
   onRepeat: () => void;
   onBack: () => void;
   onSetSpeed: (rate: number) => void;
 }
 
 export default function ReadingScreen({
-  tokens, tIdx, curGrps, curGrp, gIdx, doneSet,
-  awaitEnter, isLastTok, ttsRate,
-  onNext, onRepeat, onBack, onSetSpeed,
+  tokens, tIdx, curGroups, doneSet,
+  awaitEnter, isSpeaking, isLastTok, ttsRate,
+  onConfirmEnter, onRepeat, onBack, onSetSpeed,
 }: Props) {
-  const shownGroups = awaitEnter ? curGrps : curGrps.slice(0, gIdx);
-
-  const nextLabel = awaitEnter
-    ? `✓ দেওয়া হয়েছে — ${isLastTok ? 'সম্পন্ন' : 'পরবর্তী টোকেন'}`
-    : gIdx === curGrps.length - 1
-    ? 'টাইপ শেষ → মিটারে Enter চাপুন'
-    : 'পরবর্তী গ্রুপ →';
-
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -42,15 +33,12 @@ export default function ReadingScreen({
         <button className="text-slate-500 text-sm px-2 py-1" onClick={onBack}>
           ← ফিরে
         </button>
-        <div className="text-center">
-          <p className="text-amber-400 text-[11px] font-semibold tracking-[.12em] uppercase">
-            টোকেন {toBN(tIdx + 1)} / {toBN(tokens.length)}
-          </p>
-          {!awaitEnter && (
-            <p className="text-slate-500 text-xs">গ্রুপ {toBN(gIdx + 1)} এর ৫</p>
-          )}
-        </div>
-        <button className="text-xl px-2 py-1" onClick={onRepeat}>🔊</button>
+        <p className="text-amber-400 text-[11px] font-semibold tracking-[.12em] uppercase">
+          টোকেন {toBN(tIdx + 1)} / {toBN(tokens.length)}
+        </p>
+        <button className={`text-xl px-2 py-1 ${isSpeaking ? 'animate-pulse' : ''}`} onClick={onRepeat}>
+          🔊
+        </button>
       </div>
 
       {/* Token progress dots */}
@@ -67,61 +55,30 @@ export default function ReadingScreen({
         ))}
       </div>
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-5 gap-[22px]">
-        {shownGroups.length > 0 && (
-          <div className="w-full max-w-xs flex flex-col gap-1.5">
-            {shownGroups.map((g, i) => (
-              <div key={i} className="flex items-center gap-2.5 bg-slate-900 rounded-xl px-3 py-2">
-                <span className="text-green-500 text-xs">✓</span>
-                <span className="font-mono text-slate-500 tracking-[.18em] text-[15px]">{g}</span>
-                <span className="text-slate-800 text-[11px] ml-auto">গ্রুপ {toBN(i + 1)}</span>
-              </div>
-            ))}
-          </div>
-        )}
+      {/* All 5 groups */}
+      <div className="flex-1 flex flex-col items-center justify-center px-5 gap-6">
+        <div className="w-full max-w-xs flex flex-col gap-2">
+          {curGroups.map((g, i) => (
+            <div key={i} className="flex items-center gap-3 bg-slate-900 rounded-xl px-4 py-3">
+              <span className="text-slate-600 text-xs w-4 shrink-0">{toBN(i + 1)}</span>
+              <span className="font-mono text-[24px] font-bold text-amber-300 tracking-[.22em]">
+                {g}
+              </span>
+            </div>
+          ))}
+        </div>
 
-        {awaitEnter ? (
-          <div className="flex flex-col items-center gap-4 text-center">
-            <div className="w-[76px] h-[76px] rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-4xl text-amber-400">
+        {awaitEnter && (
+          <div className="flex flex-col items-center gap-2 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-700 flex items-center justify-center text-3xl text-amber-400">
               ↵
             </div>
-            <div>
-              <p className="text-xl font-bold text-white">Enter চাপুন</p>
-              <p className="text-slate-500 text-sm mt-1">আপনার মিটারে</p>
-            </div>
+            <p className="text-white font-semibold text-sm">মিটারে Enter চাপুন</p>
           </div>
-        ) : (
-          <>
-            {/* Group progress dots */}
-            <div className="flex gap-2 items-center">
-              {[0, 1, 2, 3, 4].map(i => (
-                <div
-                  key={i}
-                  className="h-[5px] rounded-full transition-all"
-                  style={{
-                    width: i === gIdx ? 20 : 12,
-                    background: i < gIdx ? '#22c55e' : i === gIdx ? '#f59e0b' : '#1e293b',
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Digit cards */}
-            <div className="flex gap-2.5">
-              {(curGrp || '----').split('').map((d, i) => (
-                <div key={i} className="digit-card">
-                  <span className="font-mono text-[44px] font-bold text-amber-300 leading-none">{d}</span>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-slate-500 text-sm">মিটারে এই ৪টি সংখ্যা দিন</p>
-          </>
         )}
       </div>
 
-      {/* Controls */}
+      {/* Speed + confirm button */}
       <div className="px-5 pb-8 flex flex-col gap-2.5">
         <div className="flex gap-2">
           <button
@@ -145,14 +102,17 @@ export default function ReadingScreen({
           ))}
         </div>
         <button
-          className={`py-5 font-bold text-[17px] rounded-2xl ${
+          className={`py-5 font-bold text-[17px] rounded-2xl transition-colors ${
             awaitEnter
-              ? 'bg-green-600 text-white active:bg-green-700'
-              : 'bg-amber-400 text-slate-900 active:bg-amber-500'
+              ? 'bg-green-600 text-white active:bg-green-700 cursor-pointer'
+              : 'bg-slate-800 text-slate-600 cursor-not-allowed'
           }`}
-          onClick={onNext}
+          disabled={!awaitEnter}
+          onClick={onConfirmEnter}
         >
-          {nextLabel}
+          {awaitEnter
+            ? `✓ Enter চাপলাম${isLastTok ? ' — সম্পন্ন' : ' — পরবর্তী টোকেন'}`
+            : 'পড়া হচ্ছে…'}
         </button>
       </div>
     </div>

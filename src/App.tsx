@@ -9,49 +9,39 @@ type Screen = 'paste' | 'reading' | 'done';
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('paste');
+  const [awaitEnter, setAwaitEnter] = useState(false);
   const tts = useTTS();
   const tok = useTokens();
 
   function handleStart(text: string) {
-    const result = tok.start(text);
-    if (!result) return;
+    const groups = tok.start(text);
+    if (!groups) return;
     setScreen('reading');
-    tts.sayTokenAndGroup(1, result.parsed.length, result.firstGroup);
+    setAwaitEnter(false);
+    tts.sayFullToken(groups, () => setAwaitEnter(true));
   }
 
-  function handleNext() {
-    const result = tok.next();
-    switch (result.action) {
-      case 'next-group':
-        tts.sayGroup(result.group);
-        break;
-      case 'await-enter':
-        tts.say(tts.lang === 'bn'
-          ? 'এখন মিটারে Enter চাপুন, তারপর নিচের বোতাম চাপুন।'
-          : 'Now press Enter on the meter, then tap the button below.');
-        break;
-      case 'next-token':
-        tts.sayTokenAndGroup(result.tokenNum, result.total, result.group);
-        break;
-      case 'done':
-        tts.say(tts.lang === 'bn'
-          ? 'সব টোকেন দেওয়া হয়ে গেছে। মিটারের ডিসপ্লে দেখুন।'
-          : 'All tokens entered. Check your meter display.');
-        setScreen('done');
-        break;
+  function handleConfirmEnter() {
+    const result = tok.advance();
+    if (result.action === 'done') {
+      tts.say(tts.lang === 'bn'
+        ? 'সব টোকেন দেওয়া হয়ে গেছে। মিটারের ডিসপ্লে দেখুন।'
+        : 'All tokens entered. Check your meter display.');
+      setScreen('done');
+    } else {
+      setAwaitEnter(false);
+      tts.sayFullToken(result.groups, () => setAwaitEnter(true));
     }
   }
 
   function handleRepeat() {
-    if (tok.awaitEnter) {
-      tts.say(tts.lang === 'bn' ? 'মিটারে Enter চাপুন।' : 'Press Enter on the meter.');
-    } else {
-      tts.sayGroup(tok.curGrp);
-    }
+    setAwaitEnter(false);
+    tts.sayFullToken(tok.curGroups, () => setAwaitEnter(true));
   }
 
   function handleBack() {
     tts.cancel();
+    setAwaitEnter(false);
     setScreen('paste');
   }
 
@@ -69,14 +59,13 @@ export default function App() {
       <ReadingScreen
         tokens={tok.tokens}
         tIdx={tok.tIdx}
-        curGrps={tok.curGrps}
-        curGrp={tok.curGrp}
-        gIdx={tok.gIdx}
+        curGroups={tok.curGroups}
         doneSet={tok.doneSet}
-        awaitEnter={tok.awaitEnter}
+        awaitEnter={awaitEnter}
+        isSpeaking={tts.isSpeaking}
         isLastTok={tok.isLastTok}
         ttsRate={tts.rate}
-        onNext={handleNext}
+        onConfirmEnter={handleConfirmEnter}
         onRepeat={handleRepeat}
         onBack={handleBack}
         onSetSpeed={tts.setRate}
