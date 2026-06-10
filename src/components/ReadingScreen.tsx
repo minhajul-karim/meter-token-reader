@@ -18,14 +18,19 @@ interface Props {
   onConfirmEnter: () => void;
   onRepeat: () => void;
   onBack: () => void;
+  onPrev: () => void;
+  onNext: () => void;
   onSetSpeed: (rate: number) => void;
 }
 
 export default function ReadingScreen({
   tokens, tIdx, curGroups, doneSet,
   awaitEnter, isLastTok, ttsRate,
-  onConfirmEnter, onRepeat, onBack, onSetSpeed,
+  onConfirmEnter, onRepeat, onBack, onPrev, onNext, onSetSpeed,
 }: Props) {
+  const canGoPrev = tIdx > 0;
+  const canGoNext = tIdx < tokens.length - 1;
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -38,18 +43,40 @@ export default function ReadingScreen({
         </p>
       </div>
 
-      {/* Token progress dots */}
-      <div className="flex gap-[5px] justify-center flex-wrap px-4 py-2.5">
-        {tokens.map((_, i) => (
-          <div
-            key={i}
-            className="h-1.5 rounded-full transition-all duration-300"
-            style={{
-              width: i === tIdx ? 22 : 14,
-              background: doneSet.has(i) ? '#16a34a' : i === tIdx ? '#d97706' : '#e2e8f0',
-            }}
-          />
-        ))}
+      {/* Token progress dots with prev/next nav */}
+      <div className="flex items-center gap-2 px-3 py-2.5">
+        <button
+          className={`flex flex-col items-center min-w-13 rounded-xl py-1 transition-colors ${
+            canGoPrev ? 'text-slate-600 active:bg-slate-100' : 'text-slate-300 cursor-not-allowed'
+          }`}
+          disabled={!canGoPrev}
+          onClick={onPrev}
+        >
+          <span className="text-2xl leading-none">‹</span>
+          <span className="text-[11px] font-medium">আগের</span>
+        </button>
+        <div className="flex-1 flex gap-1.25 justify-center flex-wrap">
+          {tokens.map((_, i) => (
+            <div
+              key={i}
+              className="h-1.5 rounded-full transition-all duration-300"
+              style={{
+                width: i === tIdx ? 22 : 14,
+                background: doneSet.has(i) ? '#16a34a' : i === tIdx ? '#d97706' : '#e2e8f0',
+              }}
+            />
+          ))}
+        </div>
+        <button
+          className={`flex flex-col items-center min-w-13 rounded-xl py-1 transition-colors ${
+            canGoNext ? 'text-slate-600 active:bg-slate-100' : 'text-slate-300 cursor-not-allowed'
+          }`}
+          disabled={!canGoNext}
+          onClick={onNext}
+        >
+          <span className="text-2xl leading-none">›</span>
+          <span className="text-[11px] font-medium">পরবর্তী</span>
+        </button>
       </div>
 
       {/* All 5 groups */}

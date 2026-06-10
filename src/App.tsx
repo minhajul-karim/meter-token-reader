@@ -42,6 +42,20 @@ export default function App() {
     tts.sayFullToken(tok.curGroups, tok.tIdx + 1, () => setAwaitEnter(true));
   }
 
+  function handlePrev() {
+    tts.cancel();
+    setAwaitEnter(false);
+    const result = tok.goBack();
+    if (result) tts.sayFullToken(result.groups, result.tokenNum, () => setAwaitEnter(true));
+  }
+
+  function handleNext() {
+    tts.cancel();
+    setAwaitEnter(false);
+    const result = tok.goForward();
+    if (result) tts.sayFullToken(result.groups, result.tokenNum, () => setAwaitEnter(true));
+  }
+
   function handleBack() {
     tts.cancel();
     setAwaitEnter(false);
@@ -71,6 +85,8 @@ export default function App() {
         onConfirmEnter={handleConfirmEnter}
         onRepeat={handleRepeat}
         onBack={handleBack}
+        onPrev={handlePrev}
+        onNext={handleNext}
         onSetSpeed={tts.setRate}
       />
     );

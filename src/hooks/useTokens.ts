@@ -26,11 +26,26 @@ export function useTokens() {
     return { action: 'next', groups: groupOf(tokens[nextIdx]), tokenNum: nextIdx + 1 };
   }
 
+  function goBack(): { groups: string[]; tokenNum: number } | null {
+    if (tIdx === 0) return null;
+    const prevIdx = tIdx - 1;
+    setTIdx(prevIdx);
+    setDoneSet(prev => { const s = new Set(prev); s.delete(prevIdx); return s; });
+    return { groups: groupOf(tokens[prevIdx]), tokenNum: prevIdx + 1 };
+  }
+
+  function goForward(): { groups: string[]; tokenNum: number } | null {
+    if (tIdx >= tokens.length - 1) return null;
+    const nextIdx = tIdx + 1;
+    setTIdx(nextIdx);
+    return { groups: groupOf(tokens[nextIdx]), tokenNum: nextIdx + 1 };
+  }
+
   function reset() {
     setTokens([]);
     setTIdx(0);
     setDoneSet(new Set());
   }
 
-  return { tokens, tIdx, doneSet, curGroups, isLastTok, start, advance, reset };
+  return { tokens, tIdx, doneSet, curGroups, isLastTok, start, advance, goBack, goForward, reset };
 }
