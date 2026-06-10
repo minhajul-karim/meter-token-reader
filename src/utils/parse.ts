@@ -1,7 +1,8 @@
 const TOKEN_RE = /\d{4}-\d{4}-\d{4}-\d{4}-\d{4}/g;
 
 export function parseTokens(text: string): string[] {
-  return (text.match(TOKEN_RE) ?? []).map(t => t.replace(/-/g, ''));
+  const normalized = text.replace(/\s+/g, '');
+  return (normalized.match(TOKEN_RE) ?? []).map(t => t.replace(/-/g, ''));
 }
 
 export function groupOf(token: string): string[] {
