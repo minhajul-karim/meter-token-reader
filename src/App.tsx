@@ -87,7 +87,11 @@ export default function App() {
         onBack={handleBack}
         onPrev={handlePrev}
         onNext={handleNext}
-        onSetSpeed={tts.setRate}
+        onSetSpeed={(r) => {
+          tts.setRate(r);
+          setAwaitEnter(false);
+          tts.sayFullToken(tok.curGroups, tok.tIdx + 1, () => setAwaitEnter(true));
+        }}
       />
     );
   }

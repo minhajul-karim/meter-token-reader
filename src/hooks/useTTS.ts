@@ -7,7 +7,8 @@ const EN_W: Record<string, string> = {
 };
 
 export function useTTS() {
-  const [rate, setRate] = useState(0.75);
+  const rateRef = useRef(0.75);
+  const [rate, setRateState] = useState(0.75);
   const [supported] = useState(() => 'speechSynthesis' in window);
   const [lang, setLang] = useState<'bn' | 'en'>('bn');
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -40,10 +41,15 @@ export function useTTS() {
     return () => speechSynthesis.removeEventListener('voiceschanged', loadVoices);
   }, [supported]);
 
+  function setRate(r: number) {
+    rateRef.current = r;
+    setRateState(r);
+  }
+
   function makeUtterance(text: string, overrideRate?: number) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang === 'bn' ? 'bn-BD' : 'en-US';
-    u.rate = overrideRate ?? rate;
+    u.rate = overrideRate ?? rateRef.current;
     if (voiceRef.current) u.voice = voiceRef.current;
     return u;
   }
@@ -68,7 +74,7 @@ export function useTTS() {
     groups.forEach(g => {
       const u = new SpeechSynthesisUtterance(g.split('').map(d => EN_W[d] ?? d).join(', '));
       u.lang = 'en-US';
-      u.rate = rate;
+      u.rate = rateRef.current;
       speechSynthesis.speak(u);
     });
 
